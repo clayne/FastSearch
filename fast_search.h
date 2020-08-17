@@ -345,7 +345,7 @@ inline U32 FastSearch64(const void* const __restrict p, const U32 n, const U64 q
         const __m256i vA = _mm256_cmpeq_epi64(vq, _mm256_loadu_si256((const __m256i*)((const U64*)p + iCoarse + 0)));
         const __m256i vB = _mm256_cmpeq_epi64(vq, _mm256_loadu_si256((const __m256i*)((const U64*)p + iCoarse + 4)));
         const __m256i vM = _mm256_or_si256(vA, vB);
-        if (!_mm256_testz_si256(vM, vM))
+        if (UNLIKELY(!_mm256_testz_si256(vM, vM)))
         {
             const U32 mA = (U32)_mm256_movemask_pd(_mm256_castsi256_pd(vA)) << 0;
             const U32 mB = (U32)_mm256_movemask_pd(_mm256_castsi256_pd(vB)) << 4;
